@@ -2,9 +2,7 @@ import pyodbc as odbc
 import pandas as pd
 from flask import Flask, render_template
 
-# server = 'cloudfinaldb.database.windows.net'
-# database = 'customerData'
-connection_string = 'Driver={ODBC Driver 18 for SQL Server};Server=tcp:cloudfinaldb.database.windows.net,1433;Database=customerData;Uid=CloudSA7fa8b584;Pwd=Pa$$w0rd!;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;'
+# hide connection string
 
 conn = odbc.connect(connection_string)
 

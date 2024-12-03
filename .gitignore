@@ -1,0 +1,7 @@
+# .gitignore
+
+# Environment
+.env
+
+# csv
+Bank_churners_data.csv

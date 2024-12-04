@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from dotenv import load_dotenv
 import os
 from utils.df_utils import *
@@ -20,14 +20,24 @@ create_csv(df, csv_file_path)
 
 
 # Routes
-@app.route('/')
-def home():
-    return render_template('index.html')
+@app.route("/", methods=["GET", "POST"])
+def form():
+    if request.method == "POST":
+        username = request.form["username"]
+        email = request.form["email"]
+        # Redirect to welcome page with username as a query parameter
+        return redirect(url_for("welcome", username=username))
+    return render_template("form.html")
+
+@app.route("/welcome")
+def welcome():
+    username = request.args.get("username", "Guest")
+    return render_template("welcome.html", username=username)
 
 @app.route('/sample')
 def display_csv():
-    sample_df = df.head(100)
-    table_html = sample_df.to_html(classes="table table-bordered", index=False)  # 'table table-bordered' adds Bootstrap styling
+    sample_df = df.head(100) # make 400
+    table_html = sample_df.to_html(classes="table table-bordered")  # 'table table-bordered' adds Bootstrap styling
     
     # Render the HTML template and pass the table_html
     return render_template('sample.html', table_html=table_html)

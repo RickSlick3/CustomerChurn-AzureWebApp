@@ -29,19 +29,35 @@ def form():
         return redirect(url_for("welcome", username=username))
     return render_template("form.html")
 
+
 @app.route("/welcome")
 def welcome():
     username = request.args.get("username", "Guest")
     return render_template("welcome.html", username=username)
 
-@app.route('/sample')
-def display_csv():
-    sample_df = df.head(100) # make 400
-    table_html = sample_df.to_html(classes="table table-bordered")  # 'table table-bordered' adds Bootstrap styling
-    
-    # Render the HTML template and pass the table_html
-    return render_template('sample.html', table_html=table_html)
 
+@app.route("/data", methods=["GET", "POST"])
+def display_data():
+    filtered_df = df.head(400)
+
+    if request.method == "POST":
+        # Get the clientnum from the form
+        clientnum = request.form.get("clientnum", "")
+        filtered_df = df[df["CLIENTNUM"].astype(str).str.lower().str.contains(clientnum)]
+
+    # Check if a sort request was made
+    sort_column = request.args.get('sort_column')
+    if sort_column and sort_column in df.columns:
+        filtered_df = filtered_df.sort_values(by=sort_column)
+    
+    df_html = filtered_df.to_html(index=True)
+    return render_template("data.html", table=df_html)
+
+
+@app.route("/alldata")
+def display_all_data():
+    df_html = df.to_html(index=True)
+    return render_template("alldata.html", table=df_html)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8000, debug=os.getenv('FLASK_ENV') == 'development')

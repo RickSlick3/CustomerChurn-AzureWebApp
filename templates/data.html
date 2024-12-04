@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataFrame Display</title>
+    <style>
+        /* Add optional basic styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #d5d5d5;
+        }
+        tr:nth-child(even) {
+            background-color: #e1e1e1;
+        }
+        tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bank Churners Data Table</h1>
+    <!-- Search by clientnum -->
+    <form method="post">
+        <label for="clientnum">Search for CLIENTNUM:</label>
+        <input type="text" id="clientnum" name="clientnum" placeholder="Enter CLIENTNUM">
+        <button type="submit">Search</button>
+    </form>
+    <!-- Sort Buttons -->
+    <div style="margin-top: 10px;">
+        <form method="get" style="display:inline;">
+            <button type="submit" name="sort_column" value="CLIENTNUM">Sort by CLIENTNUM</button>
+        </form>
+        <form method="get" style="display:inline;">
+            <button type="submit" name="sort_column" value="Attrition_Flag">Sort by Attrition_Flag</button>
+        </form>
+        <form method="get" style="display:inline;">
+            <button type="submit" name="sort_column" value="Customer_Age">Sort by Customer_Age</button>
+        </form>
+        <form method="get" style="display:inline;">
+            <button type="submit" name="sort_column" value="Card_Category">Sort by Card_Category</button>
+        </form>
+        <form method="get" style="display:inline;">
+            <button type="submit" name="sort_column" value="Months_on_book">Sort by Months_on_book</button>
+        </form>
+    </div>
+    <!-- Reset the Table -->
+    <form action="/data" style="margin-top: 10px;">
+        <button type="submit">Reload Table</button>
+    </form>
+    <!-- Render the DataFrame HTML -->
+    <div style="margin-top: 10px; overflow-y: scroll;">
+        {{ table|safe }}
+    </div>
+</body>
+</html>

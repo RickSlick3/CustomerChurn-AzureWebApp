@@ -4,11 +4,12 @@ import pyodbc as odbc
 def create_df_from_db(connection_string):
     try:
         with odbc.connect(connection_string) as conn:
-            sql = '''SELECT * FROM BankChurners'''
+            # sql = '''SELECT * FROM BankChurners'''
+            sql = '''SELECT TOP 10 * FROM BankChurners'''
             # cursor = conn.cursor()
             # cursor.execute(sql)
             # dataset = cursor.fetchall()
-            df = pd.read_sql("SELECT * FROM BankChurners", conn)
+            df = pd.read_sql(sql, conn)
             return df
     except Exception as e:
         raise RuntimeError(f"Error accessing database: {e}")

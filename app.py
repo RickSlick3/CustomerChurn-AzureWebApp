@@ -21,11 +21,16 @@ create_csv(df, csv_file_path)
 
 # Routes
 @app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/sample')
 def display_csv():
-    table_html = df.to_html(classes="table table-bordered", index=False)  # 'table table-bordered' adds Bootstrap styling
+    sample_df = df.head(100)
+    table_html = sample_df.to_html(classes="table table-bordered", index=False)  # 'table table-bordered' adds Bootstrap styling
     
     # Render the HTML template and pass the table_html
-    return render_template('index.html', table_html=table_html)
+    return render_template('sample.html', table_html=table_html)
 
 
 if __name__ == '__main__':

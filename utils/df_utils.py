@@ -5,7 +5,7 @@ def create_df_from_db(connection_string):
     try:
         with odbc.connect(connection_string) as conn:
             # sql = '''SELECT * FROM BankChurners'''
-            sql = '''SELECT TOP 10 * FROM BankChurners'''
+            sql = '''SELECT * FROM BankChurners'''
             # cursor = conn.cursor()
             # cursor.execute(sql)
             # dataset = cursor.fetchall()

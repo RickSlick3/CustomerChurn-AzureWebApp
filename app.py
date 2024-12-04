@@ -1,27 +1,22 @@
 from flask import Flask, render_template
 from dotenv import load_dotenv
-
-import pyodbc as odbc
-import pandas as pd
 import os
+from utils.df_utils import *
 
-# protect connection string in .env
+# get .env
 load_dotenv()
 
 app = Flask(__name__)
 
+# get connectin string from .env
 app.config['CONNECTION_STRING'] = os.getenv('CONNECTION_STRING')
+if not app.config['CONNECTION_STRING']:
+    raise ValueError("CONNECTION_STRING is not set in the .env file.")
 
-conn = odbc.connect(app.config['CONNECTION_STRING'])
+df = create_df_from_db(app.config['CONNECTION_STRING'])
 
-sql = '''SELECT * FROM BankChurners'''
-cursor = conn.cursor()
-cursor.execute(sql)
-dataset = cursor.fetchall()
-
-df = pd.read_sql("SELECT * FROM BankChurners", conn)
 csv_file_path = 'bank_churners_data.csv'
-df.to_csv(csv_file_path, index=False)
+create_csv(df, csv_file_path)
 
 
 # Routes

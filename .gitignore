@@ -1,10 +1,13 @@
 # .gitignore
 
-# Environment
+# Environment Variales
 .env
 
-# csv
+# CSV
 Bank_churners_data.csv
 
-# deployment
+# Deployment
 .vscode/
+
+# pycache
+__pycache__/

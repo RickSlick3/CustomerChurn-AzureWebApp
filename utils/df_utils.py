@@ -41,6 +41,7 @@ def sort_by_column(df, column_name):
         return df.sort_values(by=column_name)
     return df
 
+# example heatmap for dashboard
 def corr_heatmap(df):
     numerical_columns = df.select_dtypes(include=['float64', 'int64']).columns
     df_numeric = df[numerical_columns]

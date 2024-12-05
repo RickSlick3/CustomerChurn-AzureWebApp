@@ -1,12 +1,18 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, render_template_string, jsonify
 from dotenv import load_dotenv
 import os
 from utils.df_utils import *
 
-# get .env
-load_dotenv()
+# import mpld3
+# import matplotlib.pyplot as plt
+# import numpy as np
 
 app = Flask(__name__)
+
+DEFAULT_ROWS = 400
+
+# get .env
+load_dotenv()
 
 # get connectin string from .env
 app.config['CONNECTION_STRING'] = os.getenv('CONNECTION_STRING')
@@ -15,7 +21,7 @@ if not app.config['CONNECTION_STRING']:
 
 df = create_df_from_db(app.config['CONNECTION_STRING'])
 
-csv_file_path = 'bank_churners_data.csv'
+csv_file_path = 'utils/bank_churners_data.csv'
 create_csv(df, csv_file_path)
 
 
@@ -38,18 +44,18 @@ def welcome():
 
 @app.route("/data", methods=["GET", "POST"])
 def display_data():
-    filtered_df = df.head(400)
+    filtered_df = df.head(DEFAULT_ROWS)
 
+    # Handle POST request for filtering
     if request.method == "POST":
-        # Get the clientnum from the form
-        clientnum = request.form.get("clientnum", "")
-        filtered_df = df[df["CLIENTNUM"].astype(str).str.lower().str.contains(clientnum)]
+        # clientnum = request.form.get("clientnum", "")
+        filtered_df = filter_by_clientnum(df, request.form.get("clientnum", ""))
 
-    # Check if a sort request was made
-    sort_column = request.args.get('sort_column')
-    if sort_column and sort_column in df.columns:
-        filtered_df = filtered_df.sort_values(by=sort_column)
-    
+    # Handle GET request for sorting
+    if request.method == "GET":
+        # sort_column = request.args.get('sort_column')
+        filtered_df = sort_by_column(filtered_df, request.args.get('sort_column'))
+
     df_html = filtered_df.to_html(index=True)
     return render_template("data.html", table=df_html)
 
@@ -58,6 +64,30 @@ def display_data():
 def display_all_data():
     df_html = df.to_html(index=True)
     return render_template("alldata.html", table=df_html)
+
+
+# @app.route("/dashboard")
+# def dashboard():
+#     x = np.linspace(0, 10, 100)
+#     y = np.sin(x)
+
+#     fig, ax = plt.subplots()
+#     ax.plot(x, y)
+#     ax.set(title="Sine Wave", xlabel="X", ylabel="Y")
+
+#     # Convert the plot to an HTML representation using mpld3
+#     plot_html = mpld3.fig_to_html(fig)
+
+#     return render_template_string("""
+#         <html>
+#         <head><title>Interactive Plot</title></head>
+#         <body>
+#             <h1>Matplotlib Interactive Plot</h1>
+#             {{ plot_html | safe }}
+#         </body>
+#         </html>
+#     """, plot_html=plot_html)
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8000, debug=os.getenv('FLASK_ENV') == 'development')

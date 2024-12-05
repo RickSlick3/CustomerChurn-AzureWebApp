@@ -3,3 +3,5 @@ pandas
 gunicorn
 pyodbc
 python-dotenv
+seaborn
+mpld3

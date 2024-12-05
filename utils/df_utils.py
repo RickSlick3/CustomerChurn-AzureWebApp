@@ -1,5 +1,12 @@
 import pandas as pd
 import pyodbc as odbc
+import seaborn as sns
+import numpy as np
+import io
+
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 # Uses the connection string to connect to the database and return the data
 def create_df_from_db(connection_string):
@@ -33,3 +40,18 @@ def sort_by_column(df, column_name):
     if column_name in df.columns:
         return df.sort_values(by=column_name)
     return df
+
+def corr_heatmap(df):
+    numerical_columns = df.select_dtypes(include=['float64', 'int64']).columns
+    df_numeric = df[numerical_columns]
+    correlation_matrix = df_numeric.corr()
+    mask = np.triu(np.ones_like(correlation_matrix, dtype=bool))
+    plt.figure(figsize=(12, 10))
+    sns.heatmap(correlation_matrix, mask=mask, annot=True, fmt='.2f', cmap='coolwarm', 
+                cbar_kws={"shrink": 0.8}, linewidths=0.5)
+    plt.title('Correlation Matrix')
+    img = io.BytesIO()
+    plt.savefig(img, format='png', bbox_inches='tight')
+    img.seek(0)
+    plt.close()
+    return img

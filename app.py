@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, render_template_string, jsonify
+from flask import Flask, render_template, request, redirect, url_for, Response
 from dotenv import load_dotenv
 import os
 from utils.df_utils import *
@@ -66,27 +66,15 @@ def display_all_data():
     return render_template("alldata.html", table=df_html)
 
 
-# @app.route("/dashboard")
-# def dashboard():
-#     x = np.linspace(0, 10, 100)
-#     y = np.sin(x)
+@app.route("/plot")
+def plot():
+    img = corr_heatmap(df)
+    return Response(img, mimetype='image/png')
 
-#     fig, ax = plt.subplots()
-#     ax.plot(x, y)
-#     ax.set(title="Sine Wave", xlabel="X", ylabel="Y")
 
-#     # Convert the plot to an HTML representation using mpld3
-#     plot_html = mpld3.fig_to_html(fig)
-
-#     return render_template_string("""
-#         <html>
-#         <head><title>Interactive Plot</title></head>
-#         <body>
-#             <h1>Matplotlib Interactive Plot</h1>
-#             {{ plot_html | safe }}
-#         </body>
-#         </html>
-#     """, plot_html=plot_html)
+@app.route("/dashboard")
+def dashboard():
+    return render_template('dashboard.html')
 
 
 if __name__ == '__main__':

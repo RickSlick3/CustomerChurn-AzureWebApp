@@ -28,7 +28,7 @@ def corr_heatmap(df):
 # Churn by income
 def churn_by_income(df):
     income_attrition = df.groupby('Income_Category')['Attrition_Flag'].mean()
-    plt.figure(figsize=(7, 3))
+    plt.figure(figsize=(6, 3))
     plt.bar(['<40K', '40K-60K', '60K-80K', '80K-120K', '>120K', 'Unknown'], income_attrition, color='green')
     plt.title('Churn by Income Category')
     plt.xlabel('Income Category')
@@ -59,7 +59,7 @@ def corr_dict(df):
 
     # Create a new column for color based on the sign of the correlation
     correlation_df['Color'] = correlation_df['Correlation'].apply(lambda x: 'blue' if x > 0 else 'red')
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(11, 5))
 
     # Create horizontal bars for absolute correlations
     bars = plt.barh(correlation_df['Feature'], correlation_df['Abs_Correlation'], color=correlation_df['Color'])
@@ -90,7 +90,7 @@ def gender_attrition(df):
     labels = ['Stayed', 'Left']
 
     # Plot 1: Proportion of Male customers who stayed vs. left
-    plt.figure(figsize=(11, 3))
+    plt.figure(figsize=(10, 3))
 
     plt.subplot(1, 3, 1)
     male_proportions = gender_attrition.loc[0] / gender_attrition.loc[0].sum()
@@ -116,7 +116,7 @@ def rel_status_attrition(df):
     labels = ['Stayed', 'Left']
 
     # Plot setup
-    plt.figure(figsize=(11, 3))
+    plt.figure(figsize=(13, 3))
 
     # Plot 1: Proportion of Single customers who stayed vs. left
     plt.subplot(1, 3, 1)
@@ -159,7 +159,7 @@ def edu_attrition(df):
     labels = ['Uneducated', 'High School', 'College', 'Graduate', 'Post-Graduate', 'Doctorate', 'Unknown']
 
     # Plot setup
-    plt.figure(figsize=(14, 6))
+    plt.figure(figsize=(11, 4))
 
     # Plot 1: Percentage of total customers by education level
     plt.subplot(1, 2, 1)
@@ -274,7 +274,7 @@ def credit_plot(df):
     ).reset_index(name='Churn_Percentage')
 
     # Plotting
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(11, 5))
     plt.bar(churned_percentage['Revolving_Balance_Group'], churned_percentage['Churn_Percentage'], color='skyblue')
     plt.xlabel('Total Revolving Balance')
     plt.ylabel('Percentage of Churned Customers')

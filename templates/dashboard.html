@@ -4,27 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analytics Dashboard</title>
+    <style>
+        .chart5, .chart6 {
+            float: left;           /* Float both divs to the left */
+            margin-right: 10px;    /* Add space between the two divs (optional) */
+            text-align: center;    /* Optional: center the image within the div */
+        }
+    </style>
 </head>
 <body>
-    <h1>Analytics Dashboard</h1>
+    <h1>Analytics Dashboard for Credit Card Customer Churn</h1>
     <div class="dashboard">
         <div class="chart-container">
-            <div class="chart">
-                <h2>Correlation Heatmap</h2>
-                <img src="{{ url_for('static', filename='images/corr_heatmap.png') }}" alt="Correlation Heatmap">
+            <div class="chart1">
+                <img src="{{ url_for('static', filename='images/corr_dict.png') }}" alt="Correlation Dictionary">
             </div>
-            <div class="chart">
-                <h2>Churn by Income</h2>
+            <div class="chart2">
+                <img src="{{ url_for('static', filename='images/rel_status_attrition.png') }}" alt="Churn by Income">
+            </div>
+            <div class="chart3">
+                <img src="{{ url_for('static', filename='images/edu_attrition.png') }}" alt="Churn by Income">
+            </div>
+            <div class="chart4">
+                <img src="{{ url_for('static', filename='images/credit_plot.png') }}" alt="Churn by Income">
+            </div>
+            <div class="chart5">
                 <img src="{{ url_for('static', filename='images/income.png') }}" alt="Churn by Income">
             </div>
-        </div>
-        <div class="chart-container">
-            <div class="chart">
-                <h2>Correlation Bar Chart</h2>
-                <img src="{{ url_for('static', filename='images/corr_dict.png') }}" alt="Correlation Heatmap">
-            </div>
-            <div class="chart">
-                <h2>Churn by Gender</h2>
+            <div class="chart6">
                 <img src="{{ url_for('static', filename='images/gender_attrition.png') }}" alt="Churn by Income">
             </div>
         </div>

@@ -7,10 +7,27 @@
 </head>
 <body>
     <h1>Analytics Dashboard</h1>
-    <!-- <img src="{{ url_for('corrheatmap') }}" alt="correlation heatmap">
-    <img src="{{ url_for('income') }}" alt="income"> -->
-    <!-- <img src="{{ url_for('corrdict') }}" alt="correlation dict"> -->
-    <!-- <img src="{{ url_for('genderattrition') }}" alt="gender attrition"> -->
-    <img src="{{ url_for('relstatusattrition') }}" alt="relstatusattrition">
+    <div class="dashboard">
+        <div class="chart-container">
+            <div class="chart">
+                <h2>Correlation Heatmap</h2>
+                <img src="{{ url_for('static', filename='images/corr_heatmap.png') }}" alt="Correlation Heatmap">
+            </div>
+            <div class="chart">
+                <h2>Churn by Income</h2>
+                <img src="{{ url_for('static', filename='images/income.png') }}" alt="Churn by Income">
+            </div>
+        </div>
+        <div class="chart-container">
+            <div class="chart">
+                <h2>Correlation Bar Chart</h2>
+                <img src="{{ url_for('static', filename='images/corr_dict.png') }}" alt="Correlation Heatmap">
+            </div>
+            <div class="chart">
+                <h2>Churn by Gender</h2>
+                <img src="{{ url_for('static', filename='images/gender_attrition.png') }}" alt="Churn by Income">
+            </div>
+        </div>
+    </div>
 </body>
 </html>

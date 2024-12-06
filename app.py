@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, Response
 from dotenv import load_dotenv
 import os
 from utils.df_utils import *
+from utils.dashboard_utils import *
 
 app = Flask(__name__)
 
@@ -62,32 +63,16 @@ def display_all_data():
 
 @app.route("/dashboard")
 def dashboard():
+    corr_heatmap(mapped_df)
+    churn_by_income(mapped_df)
+    corr_dict(mapped_df)
+    gender_attrition(mapped_df)
+    rel_status_attrition(mapped_df)
+    edu_attrition(mapped_df)
+    age_plot(mapped_df)
+    transactions_plot(mapped_df)
+    credit_plot(mapped_df)
     return render_template('dashboard.html')
-
-@app.route("/corrheatmap")
-def corrheatmap():
-    img = corr_heatmap(mapped_df)
-    return Response(img, mimetype='image/png')
-
-@app.route("/income")
-def income():
-    img = churn_by_income(mapped_df)
-    return Response(img, mimetype='image/png')
-
-@app.route("/corrdict")
-def corrdict():
-    img = corr_dict(mapped_df)
-    return Response(img, mimetype='image/png')
-
-@app.route("/genderattrition")
-def genderattrition():
-    img = gender_attrition(mapped_df)
-    return Response(img, mimetype='image/png')
-
-@app.route("/relstatusattrition")
-def relstatusattrition():
-    img = rel_status_attrition(mapped_df)
-    return Response(img, mimetype='image/png')
 
 @app.route("/churn")
 def churn():

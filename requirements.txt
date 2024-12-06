@@ -5,3 +5,4 @@ pyodbc
 python-dotenv
 seaborn
 scikit-learn
+sklearn

@@ -5,12 +5,14 @@ from sklearn.metrics import  f1_score, precision_score, recall_score, accuracy_s
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier as KNC
 import os
+import pandas as pd
 
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-from utils.dashboard_utils import remove_file, make_corr_dict
+from df_utils import set_up
+from dashboard_utils import remove_file, make_corr_dict
 
 def logistic_regression(df):
     correlation_dict = make_corr_dict(df)
@@ -129,3 +131,10 @@ def knn_classifier(df):
     remove_file(save_path)
     plt.savefig(save_path, bbox_inches='tight')
     plt.close()
+
+if __name__ == '__main__':
+    df = pd.read_csv("bank_churners_data.csv")
+    mapped_df = set_up(df)
+    logistic_regression(mapped_df)
+    # random_forest(mapped_df)
+    # knn_classifier(mapped_df)

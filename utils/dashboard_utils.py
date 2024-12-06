@@ -95,7 +95,7 @@ def gender_attrition(df):
     labels = ['Stayed', 'Left']
 
     # Plot 1: Proportion of Male customers who stayed vs. left
-    plt.figure(figsize=(10, 4))
+    plt.figure(figsize=(10, 5))
 
     plt.subplot(1, 3, 1)
     male_proportions = gender_attrition.loc[0] / gender_attrition.loc[0].sum()

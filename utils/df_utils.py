@@ -46,4 +46,8 @@ def set_up(df):
     for column, mapping in mappings.items():
         df[column] = df[column].map(mapping)
 
+    # check that labels have been properly encoded
+    non_numerical_columns = df.select_dtypes(exclude=['float64', 'int64']).columns
+    print(list(non_numerical_columns) == [])
+
     return df

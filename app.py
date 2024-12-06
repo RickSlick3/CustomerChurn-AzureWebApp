@@ -46,13 +46,13 @@ def display_data():
 
     # Handle POST request for filtering
     if request.method == "POST":
-        # clientnum = request.form.get("clientnum", "")
-        filtered_df = filter_by_clientnum(df, request.form.get("clientnum", ""))
+        clientnum = request.form.get("clientnum", "")
+        filtered_df = filter_by_clientnum(df, clientnum)
 
     # Handle GET request for sorting
     if request.method == "GET":
-        # sort_column = request.args.get('sort_column')
-        filtered_df = sort_by_column(filtered_df, request.args.get('sort_column'))
+        sort_column = request.args.get('sort_column')
+        filtered_df = sort_by_column(filtered_df, sort_column)
 
     df_html = filtered_df.to_html(index=True)
     return render_template("data.html", table=df_html)
@@ -64,7 +64,6 @@ def display_all_data():
 
 @app.route("/dashboard")
 def dashboard():
-    corr_heatmap(mapped_df)
     churn_by_income(mapped_df)
     corr_dict(mapped_df)
     gender_attrition(mapped_df)
@@ -81,6 +80,12 @@ def churn():
     random_forest(mapped_df)
     knn_classifier(mapped_df)
     return render_template('churn.html')
+
+# @app.route("/corr")
+# def corr():
+#     corr_heatmap(mapped_df)
+#     return render_template('corr.html')
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8000, debug=os.getenv('FLASK_ENV') == 'development')

@@ -4,3 +4,4 @@ gunicorn
 pyodbc
 python-dotenv
 seaborn
+scikit-learn

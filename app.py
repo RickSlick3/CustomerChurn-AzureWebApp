@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 from utils.df_utils import *
 from utils.dashboard_utils import *
+from utils.ml_utils import *
 
 app = Flask(__name__)
 
@@ -76,7 +77,10 @@ def dashboard():
 
 @app.route("/churn")
 def churn():
-    return
+    logistic_regression(mapped_df)
+    random_forest(mapped_df)
+    knn_classifier(mapped_df)
+    return render_template('churn.html')
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8000, debug=os.getenv('FLASK_ENV') == 'development')

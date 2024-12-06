@@ -12,6 +12,18 @@ def remove_file(save_path):
     if os.path.exists(save_path):
         os.remove(save_path)
 
+def make_corr_dict(df):
+    target_variable = 'Attrition_Flag'
+    correlation_dict = {}
+
+    #Fill the correlation dict
+    for column in df.columns:
+        if column != target_variable:  # Exclude the target variable itself
+            correlation = df[column].corr(df[target_variable])
+            correlation_dict[column] = correlation
+
+    return correlation_dict
+
 # correltion heatmap
 def corr_heatmap(df):
     correlation_matrix = df.corr()
@@ -42,14 +54,7 @@ def churn_by_income(df):
 
 # dictionary for attrition correlation
 def corr_dict(df):
-    target_variable = 'Attrition_Flag'
-    correlation_dict = {}
-
-    #Fill the correlation dict
-    for column in df.columns:
-        if column != target_variable:  # Exclude the target variable itself
-            correlation = df[column].corr(df[target_variable])
-            correlation_dict[column] = correlation
+    correlation_dict = make_corr_dict(df)
 
     correlation_df = pd.DataFrame(list(correlation_dict.items()), columns=['Feature', 'Correlation'])
 

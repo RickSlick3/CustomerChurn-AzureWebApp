@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Churn Analysis</title>
+    <style>
+        p {
+            max-width: 567px;
+        }
+        hr {
+            max-width: 567px;
+            margin-left: 0;
+            border-top: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Machine Learnin Analysis for Credit Card Customer Churn</h1>
+    <div class="dashboard">
+        <div class="chart-container">
+            <div class="chart1">
+                <img src="{{ url_for('static', filename='images/logistic_regression.png') }}" alt="Logistic Regression">
+                <p><strong>Interpretation:</strong> The Logistic Regression model is somewhat suited for our task, as we are working on a classification problem. However, this model has the weakness of assuming a linear relationship betweeen our independent variables and customer churn - a linear relationship that is not reflected in the correlations of our data. Given that the most significant correlation between customer churn and another variable is only of magnitude .37, this model is not the best choice for our data.</p>
+            </div>
+            <hr>
+            <div class="chart2">
+                <img src="{{ url_for('static', filename='images/random_forest.png') }}" alt="Random Forest">
+                <p><strong>Interpretation:</strong> The Random Forest Model performs better than our other models because it is better equiped to take advantage of the weak correlations found within our data. It does not assume specific relationships between independent variables and customer churn, but instead aggregates the many weak trends within the data to achieve greater accuracy.</p>
+            </div>
+            <hr>
+            <div class="chart3">
+                <img src="{{ url_for('static', filename='images/knn_classifier.png') }}" alt="KNN Classifier">
+                <p><strong>Interpretation:</strong> This model is interesting precisely because it achieves decent accuracy while only using two independent variables: The number of transactions a customer has had in the last 12 months ('Total_Trans_Ct') and the change in number of transactions between quarters one and four ('Total_Ct_Chng_Q4_Q1'). While this is our least accurate model, we believe it demonstrates how significant these two variables are in predicting customer behavior.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -90,7 +90,7 @@ def gender_attrition(df):
     labels = ['Stayed', 'Left']
 
     # Plot 1: Proportion of Male customers who stayed vs. left
-    plt.figure(figsize=(10, 3))
+    plt.figure(figsize=(10, 4))
 
     plt.subplot(1, 3, 1)
     male_proportions = gender_attrition.loc[0] / gender_attrition.loc[0].sum()
@@ -209,7 +209,7 @@ def age_plot(df):
     age_totals_smoothed = moving_average(age_totals, window_size=3)
     age_left_percentage_smoothed = moving_average(age_left_percentage, window_size=3)
 
-    plt.figure(figsize=(12, 6))
+    plt.figure(figsize=(11, 5))
 
     # Plot 1: Smoothed total number of customers by age
     plt.subplot(1, 2, 1)
@@ -239,7 +239,7 @@ def transactions_plot(df):
     churned_customers = df[df['Attrition_Flag'] == 1]
 
     # Create the scatter plot
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(11, 5))
 
     # Scatter plot for existing customers (Attrition_Flag == 0)
     plt.scatter(existing_customers['Total_Trans_Ct'], existing_customers['Total_Trans_Amt'],
@@ -274,7 +274,7 @@ def credit_plot(df):
     ).reset_index(name='Churn_Percentage')
 
     # Plotting
-    plt.figure(figsize=(11, 5))
+    plt.figure(figsize=(11, 4))
     plt.bar(churned_percentage['Revolving_Balance_Group'], churned_percentage['Churn_Percentage'], color='skyblue')
     plt.xlabel('Total Revolving Balance')
     plt.ylabel('Percentage of Churned Customers')

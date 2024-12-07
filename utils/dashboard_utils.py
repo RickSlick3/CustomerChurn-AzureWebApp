@@ -273,32 +273,32 @@ def transactions_plot(df):
         plt.savefig(save_path, bbox_inches='tight')
         plt.close()
 
-def credit_plot(df):
-    save_path = os.path.join("static", "images", "credit_plot.png")
-    # remove_file(save_path)
-    if not os.path.exists(save_path):
-        # Define bins for Total Revolving Balance
-        bins = np.arange(0, df['Total_Revolving_Bal'].max() + 100, 100)
-        bin_labels = [f'{i}-{i + 99}' for i in range(0, df['Total_Revolving_Bal'].max(), 100)]
+# def credit_plot(df):
+#     save_path = os.path.join("static", "images", "credit_plot.png")
+#     # remove_file(save_path)
+#     if not os.path.exists(save_path):
+#         # Define bins for Total Revolving Balance
+#         bins = np.arange(0, df['Total_Revolving_Bal'].max() + 100, 100)
+#         bin_labels = [f'{i}-{i + 99}' for i in range(0, df['Total_Revolving_Bal'].max(), 100)]
 
-        # Create a new column for Total Revolving Balance bins
-        df['Revolving_Balance_Group'] = pd.cut(df['Total_Revolving_Bal'], bins=bins, labels=bin_labels, right=False)
+#         # Create a new column for Total Revolving Balance bins
+#         df['Revolving_Balance_Group'] = pd.cut(df['Total_Revolving_Bal'], bins=bins, labels=bin_labels, right=False)
 
-        # Group by the Revolving Balance bins and calculate the percentage of churned customers in each bin
-        churned_percentage = df.groupby('Revolving_Balance_Group').apply(
-            lambda x: (x['Attrition_Flag'].sum() / len(x)) * 100
-        ).reset_index(name='Churn_Percentage')
+#         # Group by the Revolving Balance bins and calculate the percentage of churned customers in each bin
+#         churned_percentage = df.groupby('Revolving_Balance_Group').apply(
+#             lambda x: (x['Attrition_Flag'].sum() / len(x)) * 100
+#         ).reset_index(name='Churn_Percentage')
 
-        # Plotting
-        plt.figure(figsize=(11, 4))
-        plt.bar(churned_percentage['Revolving_Balance_Group'], churned_percentage['Churn_Percentage'], color='skyblue')
-        plt.xlabel('Total Revolving Balance')
-        plt.ylabel('Percentage of Churned Customers')
-        plt.title('Percentage of Churned Customers vs Unpayed Credit')
-        plt.figtext(0.5, -0.02, "Note: Total Revolving Balance is the amount of credit has not yet been payed.",
-                    ha='center', fontsize=10, color='gray')
-        plt.xticks(rotation=45, fontsize=8)
-        plt.tight_layout()
+#         # Plotting
+#         plt.figure(figsize=(11, 4))
+#         plt.bar(churned_percentage['Revolving_Balance_Group'], churned_percentage['Churn_Percentage'], color='skyblue')
+#         plt.xlabel('Total Revolving Balance')
+#         plt.ylabel('Percentage of Churned Customers')
+#         plt.title('Percentage of Churned Customers vs Unpayed Credit')
+#         plt.figtext(0.5, -0.02, "Note: Total Revolving Balance is the amount of credit has not yet been payed.",
+#                     ha='center', fontsize=10, color='gray')
+#         plt.xticks(rotation=45, fontsize=8)
+#         plt.tight_layout()
 
-        plt.savefig(save_path, bbox_inches='tight')
-        plt.close()
+#         plt.savefig(save_path, bbox_inches='tight')
+#         plt.close()

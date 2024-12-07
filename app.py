@@ -76,10 +76,10 @@ def dashboard():
 
 @app.route("/churn")
 def churn():
-    logistic_regression(mapped_df)
-    random_forest(mapped_df)
-    knn_classifier(mapped_df)
-    return render_template('churn.html')
+    log = logistic_regression(mapped_df)
+    forest = random_forest(mapped_df)
+    knn = knn_classifier(mapped_df)
+    return render_template('churn.html', log=log, forest=forest, knn=knn)
 
 
 if __name__ == '__main__':

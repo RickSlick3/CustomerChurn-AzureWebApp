@@ -33,8 +33,9 @@ def corr_heatmap(df):
     plt.title('Correlation Matrix')
 
     save_path = os.path.join("static", "images", "corr_heatmap.png")
-    remove_file(save_path)
-    plt.savefig(save_path, bbox_inches='tight')
+    # remove_file(save_path)
+    if not os.path.exists(save_path):
+        plt.savefig(save_path, bbox_inches='tight')
     plt.close()
 
 # Churn by income
@@ -48,8 +49,9 @@ def churn_by_income(df):
     plt.xticks(rotation=45)
 
     save_path = os.path.join("static", "images", "income.png")
-    remove_file(save_path)
-    plt.savefig(save_path, bbox_inches='tight')
+    # remove_file(save_path)
+    if not os.path.exists(save_path):
+        plt.savefig(save_path, bbox_inches='tight')
     plt.close()
 
 # dictionary for attrition correlation
@@ -85,8 +87,9 @@ def corr_dict(df):
     plt.tight_layout()
 
     save_path = os.path.join("static", "images", "corr_dict.png")
-    remove_file(save_path)
-    plt.savefig(save_path, bbox_inches='tight')
+    # remove_file(save_path)
+    if not os.path.exists(save_path):
+        plt.savefig(save_path, bbox_inches='tight')
     plt.close()
 
 # Attrition and gender
@@ -109,8 +112,9 @@ def gender_attrition(df):
     plt.title('Attrition of female customers')
 
     save_path = os.path.join("static", "images", "gender_attrition.png")
-    remove_file(save_path)
-    plt.savefig(save_path, bbox_inches='tight')
+    # remove_file(save_path)
+    if not os.path.exists(save_path):
+        plt.savefig(save_path, bbox_inches='tight')
     plt.close()
 
 # marital status and attrition
@@ -143,8 +147,9 @@ def rel_status_attrition(df):
     plt.tight_layout()
 
     save_path = os.path.join("static", "images", "rel_status_attrition.png")
-    remove_file(save_path)
-    plt.savefig(save_path, bbox_inches='tight')
+    # remove_file(save_path)
+    if not os.path.exists(save_path):
+        plt.savefig(save_path, bbox_inches='tight')
     plt.close()
 
 def edu_attrition(df):
@@ -197,8 +202,9 @@ def edu_attrition(df):
     plt.tight_layout()
 
     save_path = os.path.join("static", "images", "edu_attrition.png")
-    remove_file(save_path)
-    plt.savefig(save_path, bbox_inches='tight')
+    # remove_file(save_path)
+    if not os.path.exists(save_path):
+        plt.savefig(save_path, bbox_inches='tight')
     plt.close()
 
 # Define a function for moving average
@@ -234,62 +240,65 @@ def age_plot(df):
     plt.tight_layout()
 
     save_path = os.path.join("static", "images", "age_plot.png")
-    remove_file(save_path)
-    plt.savefig(save_path, bbox_inches='tight')
+    # remove_file(save_path)
+    if not os.path.exists(save_path):
+        plt.savefig(save_path, bbox_inches='tight')
     plt.close()
 
 def transactions_plot(df):
-    # Filter the data based on Attrition_Flag
-    existing_customers = df[df['Attrition_Flag'] == 0]
-    churned_customers = df[df['Attrition_Flag'] == 1]
-
-    # Create the scatter plot
-    plt.figure(figsize=(11, 5))
-
-    # Scatter plot for existing customers (Attrition_Flag == 0)
-    plt.scatter(existing_customers['Total_Trans_Ct'], existing_customers['Total_Trans_Amt'],
-                color='blue', label='Existing Customers', alpha=0.6)
-
-    # Scatter plot for churned customers (Attrition_Flag == 1)
-    plt.scatter(churned_customers['Total_Trans_Ct'], churned_customers['Total_Trans_Amt'],
-                color='red', label='Churned Customers', alpha=0.6)
-
-    plt.xlabel('Total Transactions Count')
-    plt.ylabel('Total Transaction Amount')
-    plt.title('Number of transactions vs Amount Transacted')
-    plt.legend()
-    plt.tight_layout()
-
     save_path = os.path.join("static", "images", "transactions_plot.png")
-    remove_file(save_path)
-    plt.savefig(save_path, bbox_inches='tight')
-    plt.close()
+    # remove_file(save_path)
+    if not os.path.exists(save_path):
+        # Filter the data based on Attrition_Flag
+        existing_customers = df[df['Attrition_Flag'] == 0]
+        churned_customers = df[df['Attrition_Flag'] == 1]
+
+        # Create the scatter plot
+        plt.figure(figsize=(11, 5))
+
+        # Scatter plot for existing customers (Attrition_Flag == 0)
+        plt.scatter(existing_customers['Total_Trans_Ct'], existing_customers['Total_Trans_Amt'],
+                    color='blue', label='Existing Customers', alpha=0.6)
+
+        # Scatter plot for churned customers (Attrition_Flag == 1)
+        plt.scatter(churned_customers['Total_Trans_Ct'], churned_customers['Total_Trans_Amt'],
+                    color='red', label='Churned Customers', alpha=0.6)
+
+        plt.xlabel('Total Transactions Count')
+        plt.ylabel('Total Transaction Amount')
+        plt.title('Number of transactions vs Amount Transacted')
+        plt.legend()
+        plt.tight_layout()
+
+        plt.savefig(save_path, bbox_inches='tight')
+        plt.close()
 
 def credit_plot(df):
-    # Define bins for Total Revolving Balance
-    bins = np.arange(0, df['Total_Revolving_Bal'].max() + 100, 100)
-    bin_labels = [f'{i}-{i + 99}' for i in range(0, df['Total_Revolving_Bal'].max(), 100)]
-
-    # Create a new column for Total Revolving Balance bins
-    df['Revolving_Balance_Group'] = pd.cut(df['Total_Revolving_Bal'], bins=bins, labels=bin_labels, right=False)
-
-    # Group by the Revolving Balance bins and calculate the percentage of churned customers in each bin
-    churned_percentage = df.groupby('Revolving_Balance_Group').apply(
-        lambda x: (x['Attrition_Flag'].sum() / len(x)) * 100
-    ).reset_index(name='Churn_Percentage')
-
-    # Plotting
-    plt.figure(figsize=(11, 4))
-    plt.bar(churned_percentage['Revolving_Balance_Group'], churned_percentage['Churn_Percentage'], color='skyblue')
-    plt.xlabel('Total Revolving Balance')
-    plt.ylabel('Percentage of Churned Customers')
-    plt.title('Percentage of Churned Customers vs Unpayed Credit')
-    plt.figtext(0.5, -0.02, "Note: Total Revolving Balance is the amount of credit has not yet been payed.",
-                ha='center', fontsize=10, color='gray')
-    plt.xticks(rotation=45, fontsize=8)
-    plt.tight_layout()
-
     save_path = os.path.join("static", "images", "credit_plot.png")
-    remove_file(save_path)
-    plt.savefig(save_path, bbox_inches='tight')
-    plt.close()
+    # remove_file(save_path)
+    if not os.path.exists(save_path):
+        # Define bins for Total Revolving Balance
+        bins = np.arange(0, df['Total_Revolving_Bal'].max() + 100, 100)
+        bin_labels = [f'{i}-{i + 99}' for i in range(0, df['Total_Revolving_Bal'].max(), 100)]
+
+        # Create a new column for Total Revolving Balance bins
+        df['Revolving_Balance_Group'] = pd.cut(df['Total_Revolving_Bal'], bins=bins, labels=bin_labels, right=False)
+
+        # Group by the Revolving Balance bins and calculate the percentage of churned customers in each bin
+        churned_percentage = df.groupby('Revolving_Balance_Group').apply(
+            lambda x: (x['Attrition_Flag'].sum() / len(x)) * 100
+        ).reset_index(name='Churn_Percentage')
+
+        # Plotting
+        plt.figure(figsize=(11, 4))
+        plt.bar(churned_percentage['Revolving_Balance_Group'], churned_percentage['Churn_Percentage'], color='skyblue')
+        plt.xlabel('Total Revolving Balance')
+        plt.ylabel('Percentage of Churned Customers')
+        plt.title('Percentage of Churned Customers vs Unpayed Credit')
+        plt.figtext(0.5, -0.02, "Note: Total Revolving Balance is the amount of credit has not yet been payed.",
+                    ha='center', fontsize=10, color='gray')
+        plt.xticks(rotation=45, fontsize=8)
+        plt.tight_layout()
+
+        plt.savefig(save_path, bbox_inches='tight')
+        plt.close()

@@ -10,9 +10,32 @@
             margin-right: 10px;    /* Add space between the two divs (optional) */
             text-align: center;    /* Optional: center the image within the div */
         }
+        /* Button styling */
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 16px;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        .button:active {
+            background-color: #003d7a;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
+    <a href="/welcome" class="button">Return to Menu</a>
     <h1>Analytics Dashboard for Credit Card Customer Churn</h1>
     <div class="dashboard">
         <div class="chart-container">
@@ -25,9 +48,9 @@
             <div class="chart3">
                 <img src="{{ url_for('static', filename='images/edu_attrition.png') }}" alt="Churn by education">
             </div>
-            <div class="chart4">
+            <!-- <div class="chart4">
                 <img src="{{ url_for('static', filename='images/credit_plot.png') }}" alt="Churn by Credit">
-            </div>
+            </div> -->
             <div class="chart5">
                 <img src="{{ url_for('static', filename='images/gender_attrition.png') }}" alt="Churn by Gender">
             </div>

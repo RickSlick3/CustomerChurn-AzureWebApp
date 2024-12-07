@@ -71,7 +71,7 @@ def dashboard():
     edu_attrition(mapped_df)
     age_plot(mapped_df)
     transactions_plot(mapped_df)
-    credit_plot(mapped_df)
+    # credit_plot(mapped_df)
     return render_template('dashboard.html')
 
 @app.route("/churn")
@@ -80,11 +80,6 @@ def churn():
     random_forest(mapped_df)
     knn_classifier(mapped_df)
     return render_template('churn.html')
-
-# @app.route("/corr")
-# def corr():
-#     corr_heatmap(mapped_df)
-#     return render_template('corr.html')
 
 
 if __name__ == '__main__':

@@ -24,9 +24,32 @@
         tr:nth-child(odd) {
             background-color: #ffffff;
         }
+        /* Button styling */
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 16px;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        .button:active {
+            background-color: #003d7a;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
+    <a href="/welcome" class="button">Return to Menu</a>
     <h1>Bank Churners Entire Data Table</h1>
     <!-- Render the DataFrame HTML -->
     <div style="margin-top: 10px; overflow-y: scroll;">

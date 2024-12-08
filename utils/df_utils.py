@@ -6,10 +6,16 @@ def create_df_from_db(connection_string):
     try:
         with odbc.connect(connection_string) as conn:
             sql = '''SELECT * FROM BankChurners'''
-            # cursor = conn.cursor()
-            # cursor.execute(sql)
-            # dataset = cursor.fetchall()
-            df = pd.read_sql(sql, conn)
+            
+            # Execute the query
+            cursor = conn.cursor()
+            cursor.execute(sql)
+            columns = [column[0] for column in cursor.description]
+            rows = cursor.fetchall()
+            df = pd.DataFrame.from_records(rows, columns=columns)
+
+            # df = pd.read_sql(sql, conn)
+
             return df
     except Exception as e:
         raise RuntimeError(f"Error accessing database: {e}")

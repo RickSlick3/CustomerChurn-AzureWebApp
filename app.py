@@ -19,10 +19,14 @@ if not app.config['CONNECTION_STRING']:
 
 df = create_df_from_db(app.config['CONNECTION_STRING'])
 
-mapped_df = set_up(df)
-
 csv_file_path = 'bank_churners_data.csv'
 create_csv(df, csv_file_path)
+
+mapped_df = df.copy()
+mapped_df = set_up(mapped_df)
+
+# csv_file_path = 'test.csv'
+# create_csv(mapped_df, csv_file_path)
 
 
 # Routes

@@ -11,10 +11,20 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-from df_utils import set_up
-from dashboard_utils import remove_file, make_corr_dict
+from utils.df_utils import set_up
+from utils.dashboard_utils import remove_file, make_corr_dict
+# from df_utils import set_up
+# from dashboard_utils import remove_file, make_corr_dict
 
-def logistic_regression(df):
+def make_df():
+    df = pd.read_csv("utils/bank_churners_data.csv")
+    df = df.drop(columns='Naive_Bayes_Classifier_Attrition_Flag_Card_Category_Contacts_Count_12_mon_Dependent_count_Education_Level_Months_Inactive_12_mon_1')
+    df = df.drop(columns='Naive_Bayes_Classifier_Attrition_Flag_Card_Category_Contacts_Count_12_mon_Dependent_count_Education_Level_Months_Inactive_12_mon_2')
+    df = set_up(df)
+    return df
+
+def logistic_regression():
+    df = make_df()
     correlation_dict = make_corr_dict(df)
 
     scaler = StandardScaler()
@@ -59,7 +69,10 @@ def logistic_regression(df):
     plt.savefig(save_path, bbox_inches='tight')
     plt.close()
 
-def random_forest(df):
+    return {"accuracy": accuracy, "f1": f1, "precision": precision, "recall": recall}
+
+def random_forest():
+    df = make_df()
     correlation_dict = make_corr_dict(df)
     # Scale the features
     scaler = StandardScaler()
@@ -96,9 +109,15 @@ def random_forest(df):
     remove_file(save_path)
     plt.savefig(save_path, bbox_inches='tight')
     plt.close()
+    
+    return {"accuracy": accuracy, "f1": f1, "precision": precision, "recall": recall}
 
-def knn_classifier(df):
+def knn_classifier():
+    df = make_df()
+    # df['Total_Trans_Ct'] = df['Total_Trans_Ct'].astype('float64')
+    # print(df[['Total_Trans_Ct', 'Total_Ct_Chng_Q4_Q1']].dtypes)
     scaler = StandardScaler()
+    
     x = scaler.fit_transform(df[['Total_Trans_Ct', 'Total_Ct_Chng_Q4_Q1']])
     y = df['Attrition_Flag']
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
@@ -121,7 +140,7 @@ def knn_classifier(df):
 
     plt.scatter(df['Total_Trans_Ct'][y_test.index][y_test==0],df['Total_Ct_Chng_Q4_Q1'][y_test.index][y_test==0], label = 'Existing Customers', color = 'blue')
     plt.scatter(df['Total_Trans_Ct'][y_test.index][y_test==1],df['Total_Ct_Chng_Q4_Q1'][y_test.index][y_test==1], label = 'Churned Customers', color = 'red')
-    plt.scatter(df['Total_Trans_Ct'][y_test.index][y_test!=y_pred],df['Total_Ct_Chng_Q4_Q1'][y_test.index][y_test!=y_pred],  label = 'Wrong Classification', color = 'yellow')
+    plt.scatter(df['Total_Trans_Ct'][y_test.index][y_test!=y_pred],df['Total_Ct_Chng_Q4_Q1'][y_test.index][y_test!=y_pred], label = 'Wrong Classification', color = 'yellow')
     plt.xlabel("Transactions in the last 12 months")
     plt.ylabel("Change in transaction count (Q4 over Q1)")
     plt.title('Customer Churn (KNN Model)')
@@ -132,9 +151,9 @@ def knn_classifier(df):
     plt.savefig(save_path, bbox_inches='tight')
     plt.close()
 
+    return {"accuracy": accuracy, "f1": f1, "precision": precision, "recall": recall}
+
 if __name__ == '__main__':
-    df = pd.read_csv("bank_churners_data.csv")
-    mapped_df = set_up(df)
-    logistic_regression(mapped_df)
-    # random_forest(mapped_df)
-    # knn_classifier(mapped_df)
+    logistic_regression()
+    random_forest()
+    knn_classifier()

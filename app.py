@@ -21,7 +21,7 @@ df = create_df_from_db(app.config['CONNECTION_STRING'])
 
 mapped_df = set_up(df)
 
-csv_file_path = 'utils/bank_churners_data.csv'
+csv_file_path = 'bank_churners_data.csv'
 create_csv(df, csv_file_path)
 
 
@@ -76,9 +76,9 @@ def dashboard():
 
 @app.route("/churn")
 def churn():
-    log = logistic_regression(mapped_df)
-    forest = random_forest(mapped_df)
-    knn = knn_classifier(mapped_df)
+    log = logistic_regression()
+    forest = random_forest()
+    knn = knn_classifier()
     return render_template('churn.html', log=log, forest=forest, knn=knn)
 
 

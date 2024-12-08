@@ -19,7 +19,7 @@ if not app.config['CONNECTION_STRING']:
 
 df = create_df_from_db(app.config['CONNECTION_STRING'])
 
-csv_file_path = 'bank_churners_data.csv'
+csv_file_path = 'bank_churners.csv'
 create_csv(df, csv_file_path)
 
 mapped_df = df.copy()

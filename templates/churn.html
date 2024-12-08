@@ -13,6 +13,9 @@
             margin-left: 0;
             border-top: 2px solid black;
         }
+        .interp {
+            margin-bottom: 40px;
+        }
     </style>
 </head>
 <body>
@@ -25,7 +28,7 @@
                 <p><strong>F1:</strong> {{ log.f1 }}</p>
                 <p><strong>Precision:</strong> {{ log.precision }}</p>
                 <p><strong>Recall:</strong> {{ log.recall }}</p>
-                <p><strong>Interpretation:</strong> The Logistic Regression model is somewhat suited for our task, as we are working on a classification problem. However, this model has the weakness of assuming a linear relationship betweeen our independent variables and customer churn - a linear relationship that is not reflected in the correlations of our data. Given that the most significant correlation between customer churn and another variable is only of magnitude .37, this model is not the best choice for our data.</p>
+                <p class="interp"><strong>Interpretation:</strong> The Logistic Regression model is somewhat suited for our task, as we are working on a classification problem. However, this model has the weakness of assuming a linear relationship betweeen our independent variables and customer churn - a linear relationship that is not reflected in the correlations of our data. Given that the most significant correlation between customer churn and another variable is only of magnitude .37, this model is not the best choice for our data.</p>
             </div>
             <hr>
             <div class="chart2">
@@ -34,7 +37,7 @@
                 <p><strong>F1:</strong> {{ forest.f1 }}</p>
                 <p><strong>Precision:</strong> {{ forest.precision }}</p>
                 <p><strong>Recall:</strong> {{ forest.recall }}</p>
-                <p><strong>Interpretation:</strong> The Random Forest Model performs better than our other models because it is better equiped to take advantage of the weak correlations found within our data. It does not assume specific relationships between independent variables and customer churn, but instead aggregates the many weak trends within the data to achieve greater accuracy.</p>
+                <p class="interp"><strong>Interpretation:</strong> The Random Forest Model performs better than our other models because it is better equiped to take advantage of the weak correlations found within our data. It does not assume specific relationships between independent variables and customer churn, but instead aggregates the many weak trends within the data to achieve greater accuracy.</p>
             </div>
             <hr>
             <div class="chart3">
@@ -43,7 +46,7 @@
                 <p><strong>F1:</strong> {{ knn.f1 }}</p>
                 <p><strong>Precision:</strong> {{ knn.precision }}</p>
                 <p><strong>Recall:</strong> {{ knn.recall }}</p>
-                <p><strong>Interpretation:</strong> This model is interesting precisely because it achieves decent accuracy while only using two independent variables: The number of transactions a customer has had in the last 12 months ('Total_Trans_Ct') and the change in number of transactions between quarters one and four ('Total_Ct_Chng_Q4_Q1'). While this is our least accurate model, we believe it demonstrates how significant these two variables are in predicting customer behavior.</p>
+                <p class="interp"><strong>Interpretation:</strong> This model is interesting precisely because it achieves decent accuracy while only using two independent variables: The number of transactions a customer has had in the last 12 months ('Total_Trans_Ct') and the change in number of transactions between quarters one and four ('Total_Ct_Chng_Q4_Q1'). While this is our least accurate model, we believe it demonstrates how significant these two variables are in predicting customer behavior.</p>
             </div>
         </div>
     </div>

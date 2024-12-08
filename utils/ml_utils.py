@@ -23,30 +23,49 @@ def make_df():
     df = set_up(df)
     return df
 
-def logistic_regression():
-    df = make_df()
-    correlation_dict = make_corr_dict(df)
-
-    scaler = StandardScaler()
-    x = scaler.fit_transform(df[list(correlation_dict.keys())])
-    y = df['Attrition_Flag']
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
-
-    model = LogisticRegression(C=1, max_iter=100, solver='lbfgs')
-    model.fit(x_train, y_train)
-    y_pred = model.predict(x_test)
-
+def calc_results(y_test, y_pred):
     accuracy = accuracy_score(y_test, y_pred)
     f1 = f1_score(y_test, y_pred)
     precision = precision_score(y_test, y_pred)
     recall = recall_score(y_test, y_pred)
     conf_matrix = confusion_matrix(y_test, y_pred)
+    return [accuracy, f1, precision, recall, conf_matrix]
 
+def print_results(acc, f1, prcsn, rec):
     print(f'Results:')
-    print(f'Accuracy: {accuracy:.2f}')
+    print(f'Accuracy: {acc:.2f}')
     print(f"F1 Score: {f1:.2f}")
-    print(f"Precision: {precision:.2f}")
-    print(f"Recall: {recall:.2f}")
+    print(f"Precision: {prcsn:.2f}")
+    print(f"Recall: {rec:.2f}")
+
+def logistic_regression():
+    df = make_df()
+    correlation_dict = make_corr_dict(df)
+
+    # scaler = StandardScaler()
+    # x = scaler.fit_transform(df[list(correlation_dict.keys())])
+    # y = df['Attrition_Flag']
+    # x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
+
+    # model = LogisticRegression(C=1, max_iter=100, solver='lbfgs')
+    # model.fit(x_train, y_train)
+    # y_pred = model.predict(x_test)
+
+    # Normalize the data so that variables with large values don't dominate the model's learning.
+    scaler = StandardScaler()
+    x = scaler.fit_transform(df[list(correlation_dict.keys())])  # Features to train on.
+    y = df['Attrition_Flag']  # The column we are trying to predict (target variable).
+    
+    # Split the data into training (to teach the model) and testing (to evaluate it).
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
+
+    # Create the logistic regression model with specific settings.
+    model = LogisticRegression(C=1, max_iter=100, solver='lbfgs')  # 'C' controls model flexibility.
+    model.fit(x_train, y_train)  # Train the model using the training data.
+    y_pred = model.predict(x_test)  # Use the trained model to predict the test data.
+
+    results = calc_results(y_test, y_pred)
+    print_results(results[0], results[1], results[2], results[3])
 
     # Transaction history graph
     plt.scatter(df['Total_Trans_Ct'][y_test.index][y_test==0],df['Total_Ct_Chng_Q4_Q1'][y_test.index][y_test==0], label = 'Existing Customers', color = 'blue')
@@ -56,20 +75,13 @@ def logistic_regression():
     plt.ylabel("Change in transaction count (Q4 over Q1)")
     plt.title('Customer Churn (Logistic Regression model)')
     plt.legend()
-    # plt.scatter(x_test[y_test == 0][:, 0], x_test[y_test == 0][:, 1], label='Existing Customers', color='blue')
-    # plt.scatter(x_test[y_test == 1][:, 0], x_test[y_test == 1][:, 1], label='Churned Customers', color='red')
-    # plt.scatter(x_test[y_test != y_pred][:, 0], x_test[y_test != y_pred][:, 1], label='Wrong Classification', color='yellow')
-    # plt.xlabel("Transactions in the last 12 months")
-    # plt.ylabel("Change in transaction count (Q4 over Q1)")
-    # plt.title('Customer Churn (Logistic Regression model)')
-    # plt.legend()
 
     save_path = os.path.join("static", "images", "logistic_regression.png")
     remove_file(save_path)
     plt.savefig(save_path, bbox_inches='tight')
     plt.close()
 
-    return {"accuracy": accuracy, "f1": f1, "precision": precision, "recall": recall}
+    return {"accuracy": results[0], "f1": results[1], "precision": results[2], "recall": results[3]}
 
 def random_forest():
     df = make_df()
@@ -85,17 +97,8 @@ def random_forest():
     model.fit(x_train, y_train)
     y_pred = model.predict(x_test)
 
-    accuracy = accuracy_score(y_test, y_pred)
-    f1 = f1_score(y_test, y_pred)
-    precision = precision_score(y_test, y_pred)
-    recall = recall_score(y_test, y_pred)
-    conf_matrix = confusion_matrix(y_test, y_pred)
-
-    print(f'Results:')
-    print(f'Accuracy: {accuracy:.2f}')
-    print(f'F1 Score: {f1:.2f}')
-    print(f'Precision: {precision:.2f}')
-    print(f'Recall: {recall:.2f}')
+    results = calc_results(y_test, y_pred)
+    print_results(results[0], results[1], results[2], results[3])
 
     plt.scatter(df['Total_Trans_Ct'][y_test.index][y_test==0],df['Total_Ct_Chng_Q4_Q1'][y_test.index][y_test==0], label = 'Existing Customers', color = 'blue')
     plt.scatter(df['Total_Trans_Ct'][y_test.index][y_test==1],df['Total_Ct_Chng_Q4_Q1'][y_test.index][y_test==1], label = 'Churned Customers', color = 'red')
@@ -110,7 +113,7 @@ def random_forest():
     plt.savefig(save_path, bbox_inches='tight')
     plt.close()
     
-    return {"accuracy": accuracy, "f1": f1, "precision": precision, "recall": recall}
+    return {"accuracy": results[0], "f1": results[1], "precision": results[2], "recall": results[3]}
 
 def knn_classifier():
     df = make_df()
@@ -126,17 +129,8 @@ def knn_classifier():
     modelKNN.fit(x_train,y_train)
     y_pred = modelKNN.predict(x_test)
 
-    accuracy = accuracy_score(y_test, y_pred)
-    f1 = f1_score(y_test, y_pred)
-    precision = precision_score(y_test, y_pred)
-    recall = recall_score(y_test, y_pred)
-    conf_matrix = confusion_matrix(y_test, y_pred)
-
-    print(f'Results:')
-    print(f'Accuracy: {accuracy:.2f}')
-    print(f"F1 Score: {f1:.2f}")
-    print(f"Precision: {precision:.2f}")
-    print(f"Recall: {recall:.2f}")
+    results = calc_results(y_test, y_pred)
+    print_results(results[0], results[1], results[2], results[3])
 
     plt.scatter(df['Total_Trans_Ct'][y_test.index][y_test==0],df['Total_Ct_Chng_Q4_Q1'][y_test.index][y_test==0], label = 'Existing Customers', color = 'blue')
     plt.scatter(df['Total_Trans_Ct'][y_test.index][y_test==1],df['Total_Ct_Chng_Q4_Q1'][y_test.index][y_test==1], label = 'Churned Customers', color = 'red')
@@ -151,7 +145,7 @@ def knn_classifier():
     plt.savefig(save_path, bbox_inches='tight')
     plt.close()
 
-    return {"accuracy": accuracy, "f1": f1, "precision": precision, "recall": recall}
+    return {"accuracy": results[0], "f1": results[1], "precision": results[2], "recall": results[3]}
 
 if __name__ == '__main__':
     logistic_regression()

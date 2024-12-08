@@ -54,6 +54,9 @@ def set_up(df):
 
     # check that labels have been properly encoded
     non_numerical_columns = df.select_dtypes(exclude=['float64', 'int64']).columns
-    print(list(non_numerical_columns) == [])
+    if list(non_numerical_columns) == []:
+        print("SUCCES --> All numerical mappings succeeded")
+    else:
+        print("ERROR --> Numerical mappings failed")
 
     return df

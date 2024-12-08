@@ -5,30 +5,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Churn Analysis</title>
     <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        h1, h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        h2 {
+            margin: 20px 0;
+        }
+
         p {
-            max-width: 567px;
+            max-width: 600px;
+            margin: 10px auto;
         }
-        hr {
-            max-width: 567px;
-            margin-left: 0;
-            border-top: 2px solid black;
+
+        /* Styling for divs and containers */
+        .dashboard {
+            padding: 20px;
+            margin: auto;
+            max-width: 800px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
+
+        .chart1, .chart2, .chart3, .question {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #eef2f3;
+            border: 1px solid #dfe6e9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        img {
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
         .interp {
-            margin-bottom: 40px;
+            margin-top: 20px;
+            font-style: italic;
+            color: #555;
+        }
+
+
+
+        hr {
+            border: none;
+            border-top: 2px solid #dfe6e9;
+            margin: 30px auto;
+            max-width: 600px;
+        }
+
+        /* Highlighting key values */
+        p strong {
+            color: #2c3e50;
+        }
+
+        /* Center align all content */
+        .content {
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <h1>Machine Learning Analysis for Credit Card Customer Churn</h1>
     <div class="dashboard">
-        <div class="chart-container">
+        <div class="content">
+            <h2>Which customers are at risk of disengaging, and how can retention strategies address this?</h2>
+            <div class="question">
+                <p class="interp">We found that the greatest indicators of customer churn within our data were the 2 independent variables:</p>
+                <p><strong>Total_Trans_Ct:</strong> Total Transaction Count (Last 12 months)</p>
+                <p><strong>Total_Ct_Chng_Q4_Q1:</strong> Change in Transaction Count (Q4 over Q1)</p>
+                <p class="interp">These two columns had the highest individual correlations with the Attrition_Flag column that we are predicting. Using machine learning, we were able to show that these columns together are strong indicators of correctly predicting customer churn.</p>
+            </div>
+            <h2>See our Three Machine Learning Model Results Below</h2>
             <div class="chart1">
                 <img src="{{ url_for('static', filename='images/logistic_regression.png') }}" alt="Logistic Regression">
                 <p><strong>Accuracy:</strong> {{ log.accuracy }}</p>
                 <p><strong>F1:</strong> {{ log.f1 }}</p>
                 <p><strong>Precision:</strong> {{ log.precision }}</p>
                 <p><strong>Recall:</strong> {{ log.recall }}</p>
-                <p class="interp"><strong>Interpretation:</strong> The Logistic Regression model is somewhat suited for our task, as we are working on a classification problem. However, this model has the weakness of assuming a linear relationship betweeen our independent variables and customer churn - a linear relationship that is not reflected in the correlations of our data. Given that the most significant correlation between customer churn and another variable is only of magnitude .37, this model is not the best choice for our data.</p>
+                <p class="interp"><strong>Interpretation:</strong> The Logistic Regression model is somewhat suited for our task, as we are working on a classification problem. However, this model has the weakness of assuming a linear relationship between our independent variables and customer churn—a linear relationship that is not reflected in the correlations of our data. Given that the most significant correlation between customer churn and another variable is only of magnitude 0.37, this model is not the best choice for our data.</p>
             </div>
             <hr>
             <div class="chart2">
@@ -37,7 +113,7 @@
                 <p><strong>F1:</strong> {{ forest.f1 }}</p>
                 <p><strong>Precision:</strong> {{ forest.precision }}</p>
                 <p><strong>Recall:</strong> {{ forest.recall }}</p>
-                <p class="interp"><strong>Interpretation:</strong> The Random Forest Model performs better than our other models because it is better equiped to take advantage of the weak correlations found within our data. It does not assume specific relationships between independent variables and customer churn, but instead aggregates the many weak trends within the data to achieve greater accuracy.</p>
+                <p class="interp"><strong>Interpretation:</strong> The Random Forest Model performs better than our other models because it is better equipped to take advantage of the weak correlations found within our data. It does not assume specific relationships between independent variables and customer churn but instead aggregates the many weak trends within the data to achieve greater accuracy.</p>
             </div>
             <hr>
             <div class="chart3">
@@ -46,7 +122,15 @@
                 <p><strong>F1:</strong> {{ knn.f1 }}</p>
                 <p><strong>Precision:</strong> {{ knn.precision }}</p>
                 <p><strong>Recall:</strong> {{ knn.recall }}</p>
-                <p class="interp"><strong>Interpretation:</strong> This model is interesting precisely because it achieves decent accuracy while only using two independent variables: The number of transactions a customer has had in the last 12 months ('Total_Trans_Ct') and the change in number of transactions between quarters one and four ('Total_Ct_Chng_Q4_Q1'). While this is our least accurate model, we believe it demonstrates how significant these two variables are in predicting customer behavior.</p>
+                <p class="interp"><strong>Interpretation:</strong> This model is interesting precisely because it achieves decent accuracy while only using two independent variables: the number of transactions a customer has had in the last 12 months ('Total_Trans_Ct') and the change in the number of transactions between quarters one and four ('Total_Ct_Chng_Q4_Q1'). While this is our least accurate model, we believe it demonstrates how significant these two variables are in predicting customer behavior.</p>
+            </div>
+            <h2>Possible Retention Strategy</h2>
+            <div class="question">
+                <p class="interp"><strong>Incentivise with Rewards Program:</strong> These models predict customer churn well based on the total transaction count over the last 12 months and the change in transactions count in Q4 over Q1. These are both negative correlations with customer churn with respective values of <strong>-0.37 and -0.29</strong>.</p>
+                <p class="interp">One way to retain credit card customers would to be incentivising them with rewards. Rewards (or points) can be given to customers that do one or more of the following:</p>
+                <li class="interp">Completing a certain number of transactions over a certain ammount</li>
+                <li class="interp">Completing a consistent number of transactions each month</li>
+                <p class="interp">This strategy could help positively increase these correlations and hopefully reduce the ammount of churned customers.</p>
             </div>
         </div>
     </div>

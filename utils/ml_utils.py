@@ -42,15 +42,6 @@ def logistic_regression():
     df = make_df()
     correlation_dict = make_corr_dict(df)
 
-    # scaler = StandardScaler()
-    # x = scaler.fit_transform(df[list(correlation_dict.keys())])
-    # y = df['Attrition_Flag']
-    # x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
-
-    # model = LogisticRegression(C=1, max_iter=100, solver='lbfgs')
-    # model.fit(x_train, y_train)
-    # y_pred = model.predict(x_test)
-
     # Normalize the data so that variables with large values don't dominate the model's learning.
     scaler = StandardScaler()
     x = scaler.fit_transform(df[list(correlation_dict.keys())])  # Features to train on.

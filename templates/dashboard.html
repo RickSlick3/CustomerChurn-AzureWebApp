@@ -5,16 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analytics Dashboard</title>
     <style>
-        .chart5 {
-            float: left;
-            margin-right: 10px;
-            text-align: center;
+        /* General body styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f9; /* Light gray-blue background for a modern look */
+            color: #333; /* Dark text for readability */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Ensure content is vertically centered */
         }
+
+        /* Center alignment for the dashboard */
+        .dashboard-container {
+            text-align: center; /* Center align content inside the container */
+            width: 90%; /* Keep the content responsive */
+            max-width: 1200px; /* Limit the maximum width */
+            padding: 20px;
+            background-color: #ffffff; /* White background for the content area */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+            border-radius: 10px; /* Rounded corners for a softer look */
+        }
+
+        /* Title styling */
+        h1 {
+            margin-bottom: 20px;
+            color: #007BFF; /* Primary theme color */
+        }
+
+        /* Styling for the chart container */
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap; /* Allow charts to wrap on smaller screens */
+            justify-content: center; /* Center align charts horizontally */
+            gap: 20px; /* Add space between the charts */
+        }
+
+        /* Individual chart styling */
+        .chart-container div {
+            display: inline-block; /* Maintain inline-block layout */
+        }
+
+        .chart-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px; /* Rounded corners for charts */
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for charts */
+        }
+
         /* Button styling */
         .button {
             display: inline-block;
             padding: 15px 30px;
-            margin: 10px;
+            margin: 20px 0;
             font-size: 16px;
             color: white;
             background-color: #007BFF;
@@ -24,10 +69,12 @@
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
+
         .button:hover {
             background-color: #0056b3;
             transform: translateY(-2px);
         }
+
         .button:active {
             background-color: #003d7a;
             transform: translateY(0);
@@ -35,22 +82,24 @@
     </style>
 </head>
 <body>
-    <a href="/welcome" class="button">Return to Menu</a>
-    <h1>Analytics Dashboard for Credit Card Customer Churn</h1>
-    <div class="dashboard">
-        <div class="chart-container">
+    <div class="dashboard-container">
+        <!-- Return to Menu button -->
+        <a href="/welcome" class="button">Return to Menu</a>
+
+        <!-- Page title -->
+        <h1>Analytics Dashboard for Credit Card Customer Churn</h1>
+
+        <!-- Charts container -->
+        <div class="dashboard">
             <div class="chart1">
                 <img src="{{ url_for('static', filename='images/corr_dict.png') }}" alt="Correlation Dictionary">
             </div>
             <div class="chart2">
-                <img src="{{ url_for('static', filename='images/rel_status_attrition.png') }}" alt="Churn by relationship status">
+                <img src="{{ url_for('static', filename='images/rel_status_attrition.png') }}" alt="Churn by Relationship Status">
             </div>
             <div class="chart3">
-                <img src="{{ url_for('static', filename='images/edu_attrition.png') }}" alt="Churn by education">
+                <img src="{{ url_for('static', filename='images/edu_attrition.png') }}" alt="Churn by Education">
             </div>
-            <!-- <div class="chart4">
-                <img src="{{ url_for('static', filename='images/credit_plot.png') }}" alt="Churn by Credit">
-            </div> -->
             <div class="chart5">
                 <img src="{{ url_for('static', filename='images/gender_attrition.png') }}" alt="Churn by Gender">
             </div>
@@ -58,7 +107,7 @@
                 <img src="{{ url_for('static', filename='images/income.png') }}" alt="Churn by Income">
             </div>
             <div class="chart7">
-                <img src="{{ url_for('static', filename='images/transactions_plot.png') }}" alt="Traansactions">
+                <img src="{{ url_for('static', filename='images/transactions_plot.png') }}" alt="Transactions">
             </div>
             <div class="chart8">
                 <img src="{{ url_for('static', filename='images/age_plot.png') }}" alt="Churn by Age">

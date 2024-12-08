@@ -14,25 +14,20 @@
             background-color: #f4f4f9;
             color: #333;
         }
-
         h1, h2 {
             color: #2c3e50;
             text-align: center;
         }
-
         h1 {
             margin-top: 20px;
         }
-
         h2 {
             margin: 20px 0;
         }
-
         p {
             max-width: 600px;
             margin: 10px auto;
         }
-
         /* Styling for divs and containers */
         .dashboard {
             padding: 20px;
@@ -42,7 +37,6 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
-
         .chart1, .chart2, .chart3, .question {
             margin: 20px auto;
             padding: 20px;
@@ -51,7 +45,6 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-
         img {
             display: block;
             margin: 0 auto 20px;
@@ -59,34 +52,57 @@
             height: auto;
             border-radius: 4px;
         }
-
         .interp {
             margin-top: 20px;
             font-style: italic;
             color: #555;
         }
-
-
-
         hr {
             border: none;
             border-top: 2px solid #dfe6e9;
             margin: 30px auto;
             max-width: 600px;
         }
-
         /* Highlighting key values */
         p strong {
             color: #2c3e50;
         }
-
         /* Center align all content */
         .content {
             text-align: center;
         }
+        /* Button styling */
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 16px;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        .button:active {
+            background-color: #003d7a;
+            transform: translateY(0);
+        }
+        .button-container {
+            text-align: center; /* Center-aligns the button */
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
+    <div class="button-container">
+        <a href="/welcome" class="button">Return to Menu</a>
+    </div>
     <h1>Machine Learning Analysis for Credit Card Customer Churn</h1>
     <div class="dashboard">
         <div class="content">
@@ -128,9 +144,9 @@
             <div class="question">
                 <p class="interp"><strong>Incentivise with Rewards Program:</strong> These models predict customer churn well based on the total transaction count over the last 12 months and the change in transactions count in Q4 over Q1. These are both negative correlations with customer churn with respective values of <strong>-0.37 and -0.29</strong>.</p>
                 <p class="interp">One way to retain credit card customers would to be incentivising them with rewards. Rewards (or points) can be given to customers that do one or more of the following:</p>
-                <li class="interp">Completing a certain number of transactions over a certain ammount</li>
+                <li class="interp">Completing a certain number of transactions over a certain amount</li>
                 <li class="interp">Completing a consistent number of transactions each month</li>
-                <p class="interp">This strategy could help positively increase these correlations and hopefully reduce the ammount of churned customers.</p>
+                <p class="interp">This strategy could help positively increase these correlations and hopefully reduce the amount of churned customers.</p>
             </div>
         </div>
     </div>
